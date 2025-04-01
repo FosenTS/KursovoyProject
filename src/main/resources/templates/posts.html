@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Posts</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .empty-message {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+        .add-button {
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation from index.html -->
+    <div class="nav-container">
+        <h1>University Information System</h1>
+        <div class="auth-links">
+            <div class="user-info" sec:authorize="isAuthenticated()">
+                <div class="username-container">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="username">
+                        <span sec:authentication="name"></span>
+                        <span class="admin-indicator" 
+                              sec:authorize="hasRole('ADMIN')" 
+                              title="Administrator">*</span>
+                    </span>
+                    
+                    <div class="user-menu">
+                        <div class="user-menu-content">
+                            <a th:href="@{/admin/users}" class="menu-item" sec:authorize="hasRole('ADMIN')">
+                                <i class="fas fa-users-cog"></i>
+                                <div class="menu-item-content">
+                                    <span class="item-text">Manage Users</span>
+                                    <span class="item-description">Add, edit, or remove users</span>
+                                </div>
+                            </a>
+                            <div class="divider"></div>
+                            <div class="logout-section">
+                                <form th:action="@{/logout}" method="post">
+                                    <button type="submit" class="logout-button">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Logout</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav>
+        <ul class="nav-links">
+            <li><a th:href="@{/faculties}">Faculties</a></li>
+            <li><a th:href="@{/chairs}">Chairs</a></li>
+            <li><a th:href="@{/posts}">Posts</a></li>
+            <li><a th:href="@{/teachers}">Teachers</a></li>
+        </ul>
+    </nav>
+
+    <div class="page-content">
+        <div class="page-header">
+            <h1 class="page-title">Academic Posts</h1>
+            <p class="page-description">Manage academic positions and roles within the university</p>
+        </div>
+
+        <div class="action-bar" sec:authorize="hasRole('ADMIN')">
+            <a th:href="@{/posts/new}" class="add-button">
+                <i class="fas fa-plus"></i>
+                Add New Post
+            </a>
+        </div>
+
+        <div th:if="${#lists.isEmpty(posts)}" class="empty-message">
+            <i class="fas fa-user-tie"></i>
+            <p>No academic posts available.</p>
+        </div>
+
+        <div th:if="${not #lists.isEmpty(posts)}" class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Short Name</th>
+                        <th sec:authorize="hasRole('ADMIN')">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="post : ${posts}">
+                        <td th:text="${post.id}">1</td>
+                        <td th:text="${post.namePost}">Post Name</td>
+                        <td th:text="${post.shortNamePost}">Short Name</td>
+                        <td sec:authorize="hasRole('ADMIN')">
+                            <div class="action-buttons">
+                                <a th:href="@{/posts/edit/{id}(id=${post.id})}" class="edit-button">
+                                    <i class="fas fa-edit"></i>
+                                    Edit
+                                </a>
+                                <a th:href="@{/posts/delete/{id}(id=${post.id})}" 
+                                   class="delete-button"
+                                   onclick="return confirm('Are you sure you want to delete this post?')">
+                                    <i class="fas fa-trash"></i>
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html> 

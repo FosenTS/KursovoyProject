@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>University Information System</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .dashboard {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #3498db;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .card-description {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .welcome-banner {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .welcome-banner {
+                padding: 2rem 1rem;
+            }
+
+            .stats-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .welcome-title {
+                font-size: 2rem;
+            }
+        }
+
+        .nav-container {
+            position: relative;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .auth-links {
+            position: absolute;
+            top: 1rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .user-info {
+            position: relative;
+            background: white;
+            padding: 0.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .user-menu {
+            position: absolute;
+            right: 0;
+            top: 120%;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            min-width: 180px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            transform: translateY(-10px);
+            padding-top: 8px;
+            margin-top: -8px;
+        }
+
+        .user-menu-content {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: #2c3e50;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            gap: 0.75rem;
+        }
+
+        .menu-item:hover {
+            background-color: #f8f9fa;
+        }
+
+        .menu-item i {
+            font-size: 1rem;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #3498db;
+        }
+
+        .menu-item .item-text {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .menu-item .item-description {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .menu-item-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .divider {
+            height: 1px;
+            background: #e2e8f0;
+            margin: 0.25rem 0;
+        }
+
+        .logout-section {
+            padding: 0.5rem;
+        }
+
+        .logout-button {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: #f8f9fa;
+            color: #e74c3c;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .logout-button:hover {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .logout-button i {
+            font-size: 1rem;
+        }
+
+        .user-info:hover .user-menu,
+        .user-menu:hover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .user-info:hover .user-menu {
+            transition-delay: 0s;
+        }
+
+        .user-menu:hover {
+            transition-delay: 0s;
+        }
+
+        .user-menu::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: transparent;
+        }
+
+        .username-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-avatar {
+            background: #3498db;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+        }
+
+        .username {
+            color: #2c3e50;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .admin-indicator {
+            color: #3498db;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: row;
+                padding-top: 4rem;
+            }
+
+            .auth-links {
+                top: 0.5rem;
+                right: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-container">
+        <h1>University Information System</h1>
+        <div class="auth-links">
+            <div class="user-info" sec:authorize="isAuthenticated()">
+                <div class="username-container">
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <span class="username">
+                        <span sec:authentication="name"></span>
+                        <span class="admin-indicator" 
+                              sec:authorize="hasRole('ADMIN')" 
+                              title="Administrator">*</span>
+                    </span>
+                    
+                    <div class="user-menu">
+                        <div class="user-menu-content">
+                            <a th:href="@{/admin/users}" class="menu-item" sec:authorize="hasRole('ADMIN')">
+                                <i class="fas fa-users-cog"></i>
+                                <div class="menu-item-content">
+                                    <span class="item-text">Manage Users</span>
+                                    <span class="item-description">Add, edit, or remove users</span>
+                                </div>
+                            </a>
+                            <div class="divider"></div>
+                            <div class="logout-section">
+                                <form th:action="@{/logout}" method="post">
+                                    <button type="submit" class="logout-button">
+                                        <i class="fas fa-sign-out-alt"></i>
+                                        <span>Logout</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div sec:authorize="!isAuthenticated()">
+                <a th:href="@{/login}" class="button primary-button">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Login
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="welcome-banner">
+        <h1 class="welcome-title">Welcome to the University Portal</h1>
+        <p class="welcome-subtitle">Access and manage university resources through our comprehensive information system</p>
+        
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number" th:text="${facultyCount}">0</div>
+                <div class="stat-label">Faculties</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" th:text="${chairCount}">0</div>
+                <div class="stat-label">Chairs</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" th:text="${postCount}">0</div>
+                <div class="stat-label">Posts</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" th:text="${teacherCount}">0</div>
+                <div class="stat-label">Teachers</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard">
+        <a href="/faculties" class="dashboard-card">
+            <i class="fas fa-university card-icon"></i>
+            <h2 class="card-title">Faculties</h2>
+            <p class="card-description">Browse and manage university faculties and their departments</p>
+        </a>
+        
+        <a href="/chairs" class="dashboard-card">
+            <i class="fas fa-chalkboard-teacher card-icon"></i>
+            <h2 class="card-title">Chairs</h2>
+            <p class="card-description">View and organize academic chairs and their specializations</p>
+        </a>
+        
+        <a href="/posts" class="dashboard-card">
+            <i class="fas fa-user-tie card-icon"></i>
+            <h2 class="card-title">Posts</h2>
+            <p class="card-description">Manage academic positions and roles within the university</p>
+        </a>
+        
+        <a href="/teachers" class="dashboard-card">
+            <i class="fas fa-users card-icon"></i>
+            <h2 class="card-title">Teachers</h2>
+            <p class="card-description">Access the directory of teaching staff and their information</p>
+        </a>
+    </div>
+</body>
+</html> 

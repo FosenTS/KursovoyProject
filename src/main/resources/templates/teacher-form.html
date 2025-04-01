@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Teacher Form</title>
+    <style>
+        .form-container {
+            width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .submit-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .cancel-button {
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2 th:text="${teacher.id == null ? 'Add New Teacher' : 'Edit Teacher'}">Teacher Form</h2>
+        
+        <form th:action="${teacher.id == null ? '/teachers' : '/teachers/edit/' + teacher.id}"
+              th:object="${teacher}" method="post">
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" th:field="*{firstName}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="secondName">Second Name:</label>
+                <input type="text" id="secondName" th:field="*{secondName}">
+            </div>
+            
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" th:field="*{lastName}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="chairId">Chair:</label>
+                <select id="chairId" th:field="*{chairId}" required>
+                    <option value="">Select Chair</option>
+                    <option th:each="chair : ${chairs}"
+                            th:value="${chair.id}"
+                            th:text="${chair.nameChair}">Chair Name</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="postId">Post:</label>
+                <select id="postId" th:field="*{postId}" required>
+                    <option value="">Select Post</option>
+                    <option th:each="post : ${posts}"
+                            th:value="${post.id}"
+                            th:text="${post.namePost}">Post Name</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input type="tel" id="phone" th:field="*{phone}">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" th:field="*{email}">
+            </div>
+            
+            <button type="submit" class="submit-button">Save</button>
+            <a href="/teachers" class="cancel-button">Cancel</a>
+        </form>
+    </div>
+</body>
+</html> 

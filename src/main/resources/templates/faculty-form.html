@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Faculty Form</title>
+    <style>
+        .form-container {
+            width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .submit-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .cancel-button {
+            padding: 10px 20px;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2 th:text="${faculty.id == null ? 'Add New Faculty' : 'Edit Faculty'}">Faculty Form</h2>
+        
+        <form th:action="${faculty.id == null ? '/faculties' : '/faculties/edit/' + faculty.id}"
+              th:object="${faculty}" method="post">
+            <div class="form-group">
+                <label for="nameFaculty">Faculty Name:</label>
+                <input type="text" id="nameFaculty" th:field="*{nameFaculty}" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="shortNameFaculty">Short Name:</label>
+                <input type="text" id="shortNameFaculty" th:field="*{shortNameFaculty}" required>
+            </div>
+            
+            <button type="submit" class="submit-button">Save</button>
+            <a href="/faculties" class="cancel-button">Cancel</a>
+        </form>
+    </div>
+</body>
+</html> 
