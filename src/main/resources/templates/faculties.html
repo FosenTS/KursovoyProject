@@ -160,53 +160,12 @@
     </style>
 </head>
 <body>
-    <!-- Navigation from index.html -->
-    <div class="nav-container">
-        <h1>University Information System</h1>
-        <div class="auth-links">
-            <div class="user-info" sec:authorize="isAuthenticated()">
-                <div class="username-container">
-                    <div class="user-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <span class="username">
-                        <span sec:authentication="name"></span>
-                        <span class="admin-indicator" 
-                              sec:authorize="hasRole('ADMIN')" 
-                              title="Administrator">*</span>
-                    </span>
-                    
-                    <div class="user-menu">
-                        <div class="user-menu-content">
-                            <a th:href="@{/admin/users}" class="menu-item" sec:authorize="hasRole('ADMIN')">
-                                <i class="fas fa-users-cog"></i>
-                                <div class="menu-item-content">
-                                    <span class="item-text">Manage Users</span>
-                                    <span class="item-description">Add, edit, or remove users</span>
-                                </div>
-                            </a>
-                            <div class="divider"></div>
-                            <div class="logout-section">
-                                <form th:action="@{/logout}" method="post">
-                                    <button type="submit" class="logout-button">
-                                        <i class="fas fa-sign-out-alt"></i>
-                                        <span>Logout</span>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="container">
+        <div class="d-flex align-items-center mb-3">
+            <a href="/" class="btn btn-primary me-3">Return to Home</a>
+            <h2>Faculties</h2>
         </div>
-    </div>
-
-    <div class="page-content">
-        <div class="page-header">
-            <h1 class="page-title">Faculties</h1>
-            <p class="page-description">Manage university faculties and their information</p>
-        </div>
-
+        
         <div class="action-bar" sec:authorize="hasRole('ADMIN')">
             <a th:href="@{/faculties/new}" class="add-button">
                 <i class="fas fa-plus"></i>

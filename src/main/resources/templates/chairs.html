@@ -123,7 +123,7 @@
                         <td th:text="${chair.id}">1</td>
                         <td th:text="${chair.nameChair}">Chair Name</td>
                         <td th:text="${chair.shortNameChair}">Short Name</td>
-                        <td th:text="${chair?.faculty?.nameFaculty}">Faculty Name</td>
+                        <td th:text="${chair != null && chair.faculty != null ? chair.faculty.nameFaculty : '_'}">Faculty Name</td>
                         <td sec:authorize="hasRole('ADMIN')">
                             <div class="action-buttons">
                                 <a th:href="@{/chairs/edit/{id}(id=${chair.id})}" class="edit-button">
