@@ -56,6 +56,7 @@ public class ChairService {
         dto.setNameChair(chair.getNameChair());
         dto.setShortNameChair(chair.getShortNameChair());
         dto.setFacultyId(chair.getFaculty().getId());
+        dto.setFacultyName(chair.getFaculty().getNameFaculty());
         return dto;
     }
 

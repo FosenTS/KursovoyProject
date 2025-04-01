@@ -133,112 +133,137 @@
             gap: 0.5rem;
             justify-content: flex-end;
         }
+
+        .home-button {
+            background: #3498db;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+        }
+
+        .home-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+            color: white;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
-    <!-- Navigation from index.html -->
-    <div class="nav-container">
-        <h1>University Information System</h1>
-        <div class="auth-links">
-            <div class="user-info" sec:authorize="isAuthenticated()">
-                <div class="username-container">
-                    <div class="user-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <span class="username">
-                        <span sec:authentication="name"></span>
-                        <span class="admin-indicator" 
-                              sec:authorize="hasRole('ADMIN')" 
-                              title="Administrator">*</span>
-                    </span>
-                    
-                    <div class="user-menu">
-                        <div class="user-menu-content">
-                            <a th:href="@{/admin/users}" class="menu-item" sec:authorize="hasRole('ADMIN')">
-                                <i class="fas fa-users-cog"></i>
-                                <div class="menu-item-content">
-                                    <span class="item-text">Manage Users</span>
-                                    <span class="item-description">Add, edit, or remove users</span>
+    <div class="container">
+        <div class="d-flex justify-content-start mb-3">
+            <a href="/" class="home-button">
+                <i class="fas fa-home"></i>
+                Return to Home
+            </a>
+            <h2 style="margin-left: 1rem;">Teachers</h2>
+        </div>
+        
+        <!-- Navigation from index.html -->
+        <div class="nav-container">
+            <h1>University Information System</h1>
+            <div class="auth-links">
+                <div class="user-info" sec:authorize="isAuthenticated()">
+                    <div class="username-container">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span class="username">
+                            <span sec:authentication="name"></span>
+                            <span class="admin-indicator" 
+                                  sec:authorize="hasRole('ADMIN')" 
+                                  title="Administrator">*</span>
+                        </span>
+                        
+                        <div class="user-menu">
+                            <div class="user-menu-content">
+                                <a th:href="@{/admin/users}" class="menu-item" sec:authorize="hasRole('ADMIN')">
+                                    <i class="fas fa-users-cog"></i>
+                                    <div class="menu-item-content">
+                                        <span class="item-text">Manage Users</span>
+                                        <span class="item-description">Add, edit, or remove users</span>
+                                    </div>
+                                </a>
+                                <div class="divider"></div>
+                                <div class="logout-section">
+                                    <form th:action="@{/logout}" method="post">
+                                        <button type="submit" class="logout-button">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                            <span>Logout</span>
+                                        </button>
+                                    </form>
                                 </div>
-                            </a>
-                            <div class="divider"></div>
-                            <div class="logout-section">
-                                <form th:action="@{/logout}" method="post">
-                                    <button type="submit" class="logout-button">
-                                        <i class="fas fa-sign-out-alt"></i>
-                                        <span>Logout</span>
-                                    </button>
-                                </form>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <nav>
-        <ul class="nav-links">
-            <li><a th:href="@{/faculties}">Faculties</a></li>
-            <li><a th:href="@{/chairs}">Chairs</a></li>
-            <li><a th:href="@{/posts}">Posts</a></li>
-            <li><a th:href="@{/teachers}">Teachers</a></li>
-        </ul>
-    </nav>
+        <nav>
+            <ul class="nav-links">
+                <li><a th:href="@{/faculties}">Faculties</a></li>
+                <li><a th:href="@{/chairs}">Chairs</a></li>
+                <li><a th:href="@{/posts}">Posts</a></li>
+                <li><a th:href="@{/teachers}">Teachers</a></li>
+            </ul>
+        </nav>
 
-    <div class="page-content">
-        <div class="page-header">
-            <h1 class="page-title">Teaching Staff</h1>
-            <p class="page-description">View and manage university teaching staff information</p>
-        </div>
+        <div class="page-content">
+            <div class="page-header">
+                <h1 class="page-title">Teaching Staff</h1>
+                <p class="page-description">View and manage university teaching staff information</p>
+            </div>
 
-        <div class="action-bar" sec:authorize="hasRole('ADMIN')">
-            <a th:href="@{/teachers/new}" class="add-button">
-                <i class="fas fa-plus"></i>
-                Add New Teacher
-            </a>
-        </div>
+            <div class="action-bar" sec:authorize="hasRole('ADMIN')">
+                <a th:href="@{/teachers/new}" class="add-button">
+                    <i class="fas fa-plus"></i>
+                    Add New Teacher
+                </a>
+            </div>
 
-        <div th:if="${#lists.isEmpty(teachers)}" class="empty-message">
-            <i class="fas fa-chalkboard-teacher"></i>
-            <p>No teachers available.</p>
-        </div>
+            <div th:if="${#lists.isEmpty(teachers)}" class="empty-message">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <p>No teachers available.</p>
+            </div>
 
-        <div th:if="${not #lists.isEmpty(teachers)}" class="teacher-grid">
-            <div th:each="teacher : ${teachers}" class="teacher-card">
-                <div class="teacher-header">
-                    <div class="teacher-avatar">
-                        <i class="fas fa-user-graduate"></i>
-                    </div>
-                    <div class="teacher-info">
-                        <h3 class="teacher-name" th:text="${teacher.nameTeacher}">Teacher Name</h3>
-                        <div class="teacher-post" th:text="${teacher.post.namePost}">Post Name</div>
-                    </div>
-                </div>
-                
-                <div class="teacher-details">
-                    <div class="detail-item">
-                        <div class="detail-label">Chair</div>
-                        <div class="detail-value" th:text="${teacher.chair.nameChair}">Chair Name</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">Faculty</div>
-                        <div class="detail-value" th:text="${teacher.chair.faculty.nameFaculty}">Faculty Name</div>
-                    </div>
-                </div>
-
-                <div class="teacher-actions" sec:authorize="hasRole('ADMIN')">
-                    <a th:href="@{/teachers/edit/{id}(id=${teacher.id})}" class="edit-button">
-                        <i class="fas fa-edit"></i>
-                        Edit
-                    </a>
-                    <a th:href="@{/teachers/delete/{id}(id=${teacher.id})}" 
-                       class="delete-button"
-                       onclick="return confirm('Are you sure you want to delete this teacher?')">
-                        <i class="fas fa-trash"></i>
-                        Delete
-                    </a>
-                </div>
+            <div th:if="${not #lists.isEmpty(teachers)}" class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Chair</th>
+                            <th>Post</th>
+                            <th>Phone</th>
+                            <th sec:authorize="hasRole('ADMIN')">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="teacher : ${teachers}">
+                            <td th:text="${teacher.lastName + ' ' + teacher.firstName + ' ' + teacher.secondName}"></td>
+                            <td th:text="${teacher.chairName}"></td>
+                            <td th:text="${teacher.postName}"></td>
+                            <td th:text="${teacher.phone}"></td>
+                            <td sec:authorize="hasRole('ADMIN')">
+                                <a th:href="@{/teachers/edit/{id}(id=${teacher.id})}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <a th:href="@{/teachers/delete/{id}(id=${teacher.id})}" class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Are you sure you want to delete this teacher?')">
+                                    <i class="fas fa-trash"></i> Delete
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
