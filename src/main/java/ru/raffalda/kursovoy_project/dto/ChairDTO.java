@@ -7,7 +7,6 @@ public class ChairDTO {
     private String shortNameChair;
     private String facultyName;
 
-    // Getters
     public Long getId() {
         return id;
     }
@@ -28,7 +27,6 @@ public class ChairDTO {
         return facultyName;
     }
 
-    // Setters
     public void setId(Long id) {
         this.id = id;
     }

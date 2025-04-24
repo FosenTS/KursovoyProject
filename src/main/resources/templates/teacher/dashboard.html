@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Teacher Dashboard</h1>
+        <div class="teacher-info" th:if="${teacher != null}">
+            <h2>Welcome, <span th:text="${teacher.firstName + ' ' + teacher.lastName}">Teacher Name</span></h2>
+            <div class="info-section">
+                <p><strong>Chair:</strong> <span th:text="${teacher.chairName}">Chair Name</span></p>
+                <p><strong>Post:</strong> <span th:text="${teacher.postName}">Post Name</span></p>
+                <p><strong>Email:</strong> <span th:text="${teacher.email}">email@example.com</span></p>
+                <p><strong>Phone:</strong> <span th:text="${teacher.phone}">+1234567890</span></p>
+            </div>
+        </div>
+        <div class="teacher-menu">
+            <a th:href="@{/teacher/profile}" class="menu-item">My Profile</a>
+            <a th:href="@{/teacher/schedule}" class="menu-item">Schedule</a>
+            <a th:href="@{/teacher/students}" class="menu-item">Students</a>
+        </div>
+    </div>
+</body>
+</html> 

@@ -29,9 +29,10 @@ public class TeacherService {
     }
 
     public List<TeacherDTO> getAllTeachers() {
-        return teacherRepository.findAll().stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        List<Teacher> teachers = teacherRepository.findAll();
+        return teachers.stream()
+                      .map(this::convertToDTO)
+                      .collect(Collectors.toList());
     }
 
     public TeacherDTO getTeacher(Long id) {
@@ -56,16 +57,29 @@ public class TeacherService {
         teacherRepository.deleteById(id);
     }
 
+    public long countTeachers() {
+        return teacherRepository.count();
+    }
+
     private TeacherDTO convertToDTO(Teacher teacher) {
         TeacherDTO dto = new TeacherDTO();
         dto.setId(teacher.getId());
         dto.setFirstName(teacher.getFirstName());
-        dto.setSecondName(teacher.getSecondName());
         dto.setLastName(teacher.getLastName());
-        dto.setChairId(teacher.getChair().getId());
-        dto.setPostId(teacher.getPost().getId());
+        dto.setSecondName(teacher.getSecondName());
         dto.setPhone(teacher.getPhone());
         dto.setEmail(teacher.getEmail());
+        
+        if (teacher.getChair() != null) {
+            dto.setChairId(teacher.getChair().getId());
+            dto.setChairName(teacher.getChair().getNameChair());
+        }
+        
+        if (teacher.getPost() != null) {
+            dto.setPostId(teacher.getPost().getId());
+            dto.setPostName(teacher.getPost().getNamePost());
+        }
+        
         return dto;
     }
 
@@ -78,9 +92,9 @@ public class TeacherService {
         teacher.setFirstName(teacherDTO.getFirstName());
         teacher.setSecondName(teacherDTO.getSecondName());
         teacher.setLastName(teacherDTO.getLastName());
-        teacher.setChair(chair);
-        teacher.setPost(post);
         teacher.setPhone(teacherDTO.getPhone());
         teacher.setEmail(teacherDTO.getEmail());
+        teacher.setChair(chair);
+        teacher.setPost(post);
     }
 } 

@@ -23,9 +23,10 @@ public class ChairService {
     }
 
     public List<ChairDTO> getAllChairs() {
-        return chairRepository.findAll().stream()
-                .map(this::convertToDTO)
-                .collect(Collectors.toList());
+        List<Chair> chairs = chairRepository.findAll();
+        return chairs.stream()
+                    .map(this::convertToDTO)
+                    .collect(Collectors.toList());
     }
 
     public ChairDTO getChair(Long id) {
@@ -50,13 +51,19 @@ public class ChairService {
         chairRepository.deleteById(id);
     }
 
+    public long countChairs() {
+        return chairRepository.count();
+    }
+
     private ChairDTO convertToDTO(Chair chair) {
         ChairDTO dto = new ChairDTO();
         dto.setId(chair.getId());
         dto.setNameChair(chair.getNameChair());
         dto.setShortNameChair(chair.getShortNameChair());
-        dto.setFacultyId(chair.getFaculty().getId());
-        dto.setFacultyName(chair.getFaculty().getNameFaculty());
+        if (chair.getFaculty() != null) {
+            dto.setFacultyId(chair.getFaculty().getId());
+            dto.setFacultyName(chair.getFaculty().getNameFaculty());
+        }
         return dto;
     }
 

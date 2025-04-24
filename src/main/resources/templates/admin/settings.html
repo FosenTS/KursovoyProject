@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>System Settings</title>
+    <style>
+        .settings-container {
+            width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .settings-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        .setting-label {
+            font-weight: 500;
+            color: #333;
+        }
+        .setting-value {
+            color: #666;
+            font-family: monospace;
+        }
+        .setting-value.enabled {
+            color: #28a745;
+        }
+        .setting-value.disabled {
+            color: #dc3545;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #007bff;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="settings-container">
+        <a href="/admin/dashboard" class="back-link">← Back to Dashboard</a>
+        <h1>System Settings</h1>
+        
+        <div class="settings-section">
+            <h2>Database Configuration</h2>
+            <div class="setting-item">
+                <span class="setting-label">Database URL:</span>
+                <span class="setting-value" th:text="${settings.databaseUrl}">jdbc:h2:mem:testdb</span>
+            </div>
+        </div>
+        
+        <div class="settings-section">
+            <h2>Application Settings</h2>
+            <div class="setting-item">
+                <span class="setting-label">Email Notifications:</span>
+                <span class="setting-value" th:classappend="${settings.emailEnabled ? 'enabled' : 'disabled'}"
+                      th:text="${settings.emailEnabled ? 'Enabled' : 'Disabled'}">Enabled</span>
+            </div>
+            <div class="setting-item">
+                <span class="setting-label">Maximum Upload Size:</span>
+                <span class="setting-value" th:text="${settings.maxUploadSize}">10MB</span>
+            </div>
+            <div class="setting-item">
+                <span class="setting-label">Debug Mode:</span>
+                <span class="setting-value" th:classappend="${settings.debugMode ? 'enabled' : 'disabled'}"
+                      th:text="${settings.debugMode ? 'Enabled' : 'Disabled'}">Disabled</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

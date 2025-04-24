@@ -5,7 +5,6 @@ public class FacultyDTO {
     private String nameFaculty;
     private String shortNameFaculty;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

@@ -3,14 +3,15 @@ package ru.raffalda.kursovoy_project.dto;
 public class TeacherDTO {
     private Long id;
     private String firstName;
-    private String secondName;
     private String lastName;
-    private Long chairId;
-    private Long postId;
+    private String secondName;
     private String phone;
     private String email;
+    private String chairName;
+    private String postName;
+    private Long chairId;
+    private Long postId;
 
-    // Getters
     public Long getId() {
         return id;
     }
@@ -19,20 +20,12 @@ public class TeacherDTO {
         return firstName;
     }
 
-    public String getSecondName() {
-        return secondName;
-    }
-
     public String getLastName() {
         return lastName;
     }
 
-    public Long getChairId() {
-        return chairId;
-    }
-
-    public Long getPostId() {
-        return postId;
+    public String getSecondName() {
+        return secondName;
     }
 
     public String getPhone() {
@@ -43,7 +36,22 @@ public class TeacherDTO {
         return email;
     }
 
-    // Setters
+    public String getChairName() {
+        return chairName;
+    }
+
+    public String getPostName() {
+        return postName;
+    }
+
+    public Long getChairId() {
+        return chairId;
+    }
+
+    public Long getPostId() {
+        return postId;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -52,20 +60,12 @@ public class TeacherDTO {
         this.firstName = firstName;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
-    }
-
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    public void setChairId(Long chairId) {
-        this.chairId = chairId;
-    }
-
-    public void setPostId(Long postId) {
-        this.postId = postId;
+    public void setSecondName(String secondName) {
+        this.secondName = secondName;
     }
 
     public void setPhone(String phone) {
@@ -74,5 +74,21 @@ public class TeacherDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setChairName(String chairName) {
+        this.chairName = chairName;
+    }
+
+    public void setPostName(String postName) {
+        this.postName = postName;
+    }
+
+    public void setChairId(Long chairId) {
+        this.chairId = chairId;
+    }
+
+    public void setPostId(Long postId) {
+        this.postId = postId;
     }
 } 

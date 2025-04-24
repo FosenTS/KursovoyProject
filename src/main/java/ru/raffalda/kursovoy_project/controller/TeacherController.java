@@ -9,8 +9,10 @@ import ru.raffalda.kursovoy_project.service.ChairService;
 import ru.raffalda.kursovoy_project.service.PostService;
 import ru.raffalda.kursovoy_project.service.TeacherService;
 
+import java.security.Principal;
+import java.util.List;
+
 @Controller
-@RequestMapping("/teachers")
 public class TeacherController {
     private final TeacherService teacherService;
     private final ChairService chairService;
@@ -23,13 +25,25 @@ public class TeacherController {
         this.postService = postService;
     }
 
-    @GetMapping
+    @GetMapping("/teacher/dashboard")
+    public String dashboard(Model model, Principal principal) {
+        if (principal != null) {
+            List<TeacherDTO> teachers = teacherService.getAllTeachers();
+            if (!teachers.isEmpty()) {
+                model.addAttribute("teacher", teachers.get(0));
+            }
+        }
+        return "teacher/dashboard";
+    }
+
+    @GetMapping({"/teachers", "/teacher"})
     public String listTeachers(Model model) {
-        model.addAttribute("teachers", teacherService.getAllTeachers());
+        List<TeacherDTO> teachers = teacherService.getAllTeachers();
+        model.addAttribute("teachers", teachers);
         return "teachers";
     }
 
-    @GetMapping("/new")
+    @GetMapping({"/teachers/new", "/teacher/new"})
     public String newTeacherForm(Model model) {
         model.addAttribute("teacher", new TeacherDTO());
         model.addAttribute("chairs", chairService.getAllChairs());
@@ -37,13 +51,13 @@ public class TeacherController {
         return "teacher-form";
     }
 
-    @PostMapping
+    @PostMapping({"/teachers", "/teacher"})
     public String createTeacher(@ModelAttribute TeacherDTO teacherDTO) {
         teacherService.createTeacher(teacherDTO);
         return "redirect:/teachers";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping({"/teachers/edit/{id}", "/teacher/edit/{id}"})
     public String editTeacherForm(@PathVariable Long id, Model model) {
         model.addAttribute("teacher", teacherService.getTeacher(id));
         model.addAttribute("chairs", chairService.getAllChairs());
@@ -51,13 +65,13 @@ public class TeacherController {
         return "teacher-form";
     }
 
-    @PostMapping("/edit/{id}")
+    @PostMapping({"/teachers/edit/{id}", "/teacher/edit/{id}"})
     public String updateTeacher(@PathVariable Long id, @ModelAttribute TeacherDTO teacherDTO) {
         teacherService.updateTeacher(id, teacherDTO);
         return "redirect:/teachers";
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping({"/teachers/delete/{id}", "/teacher/delete/{id}"})
     public String deleteTeacher(@PathVariable Long id) {
         teacherService.deleteTeacher(id);
         return "redirect:/teachers";

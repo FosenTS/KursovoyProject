@@ -48,6 +48,10 @@ public class FacultyService {
         facultyRepository.deleteById(id);
     }
 
+    public long countFaculties() {
+        return facultyRepository.count();
+    }
+
     private FacultyDTO convertToDTO(Faculty faculty) {
         FacultyDTO dto = new FacultyDTO();
         dto.setId(faculty.getId());

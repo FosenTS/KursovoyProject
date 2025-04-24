@@ -15,7 +15,6 @@ public class Faculty {
     @Column(name = "short_name_faculty", nullable = false)
     private String shortNameFaculty;
 
-    // Getters and Setters
     public Long getId() {
         return id;
     }

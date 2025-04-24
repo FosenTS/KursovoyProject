@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Admin Dashboard</h1>
+        <div class="admin-menu">
+            <a th:href="@{/admin/users}" class="menu-item">User Management</a>
+            <a th:href="@{/admin/system-settings}" class="menu-item">System Settings</a>
+            <a th:href="@{/faculties}" class="menu-item">Faculties</a>
+            <a th:href="@{/chairs}" class="menu-item">Chairs</a>
+            <a th:href="@{/teachers}" class="menu-item">Teachers</a>
+            <a th:href="@{/posts}" class="menu-item">Posts</a>
+        </div>
+    </div>
+</body>
+</html> 

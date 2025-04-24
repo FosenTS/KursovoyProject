@@ -46,6 +46,10 @@ public class PostService {
         postRepository.deleteById(id);
     }
 
+    public long countPosts() {
+        return postRepository.count();
+    }
+
     private PostDTO convertToDTO(Post post) {
         PostDTO dto = new PostDTO();
         dto.setId(post.getId());

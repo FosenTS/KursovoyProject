@@ -19,7 +19,6 @@ public class Chair {
     @Column(name = "short_name_chair", nullable = false)
     private String shortNameChair;
 
-    // Getters
     public Long getId() {
         return id;
     }
@@ -36,7 +35,6 @@ public class Chair {
         return shortNameChair;
     }
 
-    // Setters
     public void setId(Long id) {
         this.id = id;
     }

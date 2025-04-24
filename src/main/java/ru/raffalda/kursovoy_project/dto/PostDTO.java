@@ -4,7 +4,6 @@ public class PostDTO {
     private Long id;
     private String namePost;
 
-    // Getters
     public Long getId() {
         return id;
     }
@@ -13,7 +12,6 @@ public class PostDTO {
         return namePost;
     }
 
-    // Setters
     public void setId(Long id) {
         this.id = id;
     }

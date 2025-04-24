@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>System Settings</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>System Settings</h1>
+        <div class="settings-form">
+            <form th:action="@{/admin/system-settings}" method="post">
+                <div class="form-group">
+                    <label for="siteName">Site Name</label>
+                    <input type="text" id="siteName" name="siteName" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="emailServer">Email Server</label>
+                    <input type="text" id="emailServer" name="emailServer" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="maxUsers">Maximum Users</label>
+                    <input type="number" id="maxUsers" name="maxUsers" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Save Settings</button>
+            </form>
+        </div>
+        <a th:href="@{/admin/dashboard}" class="back-link">Back to Dashboard</a>
+    </div>
+</body>
+</html> 

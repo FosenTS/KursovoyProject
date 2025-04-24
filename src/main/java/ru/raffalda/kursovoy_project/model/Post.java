@@ -12,7 +12,6 @@ public class Post {
     @Column(name = "name_post", nullable = false)
     private String namePost;
 
-    // Getters
     public Long getId() {
         return id;
     }
@@ -21,7 +20,6 @@ public class Post {
         return namePost;
     }
 
-    // Setters
     public void setId(Long id) {
         this.id = id;
     }

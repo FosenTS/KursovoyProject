@@ -8,6 +8,8 @@ import ru.raffalda.kursovoy_project.dto.ChairDTO;
 import ru.raffalda.kursovoy_project.service.ChairService;
 import ru.raffalda.kursovoy_project.service.FacultyService;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/chairs")
 public class ChairController {
@@ -22,7 +24,8 @@ public class ChairController {
 
     @GetMapping
     public String listChairs(Model model) {
-        model.addAttribute("chairs", chairService.getAllChairs());
+        List<ChairDTO> chairs = chairService.getAllChairs();
+        model.addAttribute("chairs", chairs);
         return "chairs";
     }
 
